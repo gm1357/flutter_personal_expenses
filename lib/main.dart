@@ -19,7 +19,7 @@ class MyHomePage extends StatelessWidget {
     Transaction(
       id: '1',
       title: 'New TV',
-      amount: 1999.99,
+      amount: 199.99,
       date: DateTime.now(),
     ),
     Transaction(
@@ -34,7 +34,7 @@ class MyHomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Flutter App'),
+        title: Text('Personal Expenses Manager'),
       ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -51,8 +51,46 @@ class MyHomePage extends StatelessWidget {
           Column(
             children: transactions.map((tx) {
               return Card(
-                child: Text(tx.title),
-              );
+                  child: Row(
+                children: <Widget>[
+                  Container(
+                    margin: EdgeInsets.symmetric(
+                      horizontal: 15,
+                      vertical: 10,
+                    ),
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                        color: Colors.purple,
+                        width: 2,
+                      ),
+                    ),
+                    padding: EdgeInsets.all(10),
+                    child: Text(
+                      tx.amount.toString(),
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20,
+                          color: Colors.purple),
+                    ),
+                  ),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Text(
+                        tx.title,
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      Text(
+                        tx.date.toString(),
+                        style: TextStyle(fontSize: 13, color: Colors.grey),
+                      )
+                    ],
+                  )
+                ],
+              ));
             }).toList(),
           ),
         ],
