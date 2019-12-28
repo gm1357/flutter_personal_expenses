@@ -35,7 +35,7 @@ class Chart extends StatelessWidget {
         dayOne.year == dayTwo.year;
   }
 
-  double get _TotalAmount {
+  double get _totalAmount {
     return _groupedTransactionsValues.fold(0.0, (sum, item) {
       return sum + item['amount'];
     });
@@ -56,9 +56,9 @@ class Chart extends StatelessWidget {
               child: ChartBar(
                 label: data['day'],
                 amount: data['amount'],
-                percentage: _TotalAmount == 0.0
+                percentage: _totalAmount == 0.0
                     ? 0.0
-                    : (data['amount'] as double) / _TotalAmount,
+                    : (data['amount'] as double) / _totalAmount,
               ),
             );
           }).toList(),
