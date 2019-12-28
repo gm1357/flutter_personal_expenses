@@ -31,6 +31,7 @@ class MyApp extends StatelessWidget {
                 fontWeight: FontWeight.bold,
                 fontSize: 18,
               ),
+              button: TextStyle(color: Colors.white),
             ),
       ),
       home: MyHomePage(),
@@ -46,11 +47,11 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   final List<Transaction> _transactions = [];
 
-  void _addNewTransaction(String title, double amount) {
+  void _addNewTransaction(String title, double amount, DateTime date) {
     final newTx = Transaction(
       title: title,
       amount: amount,
-      date: DateTime.now(),
+      date: date,
       id: DateTime.now().toString(),
     );
 
@@ -60,9 +61,11 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   List<Transaction> get _recentTransactions {
-    return _transactions.where(
-      (tx) => tx.date.isAfter(DateTime.now().subtract(Duration(days: 7))),
-    ).toList();
+    return _transactions
+        .where(
+          (tx) => tx.date.isAfter(DateTime.now().subtract(Duration(days: 7))),
+        )
+        .toList();
   }
 
   void _startAddNewTransaction(BuildContext ctx) {
