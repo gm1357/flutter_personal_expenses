@@ -46,6 +46,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   final List<Transaction> _transactions = [];
+  bool _showChart = true;
 
   void _addNewTransaction(String title, double amount, DateTime date) {
     final newTx = Transaction(
@@ -89,6 +90,9 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    final _isLandscape =
+        MediaQuery.of(context).orientation == Orientation.landscape;
+
     final _appBar = AppBar(
       title: Text('Personal Expenses Manager'),
       actions: <Widget>[
@@ -101,19 +105,41 @@ class _MyHomePageState extends State<MyHomePage> {
 
     final _availableHeight = (MediaQuery.of(context).size.height -
         (_appBar.preferredSize.height + MediaQuery.of(context).padding.top));
+
+    final _chartWidget = Container(
+      height: _availableHeight * (_isLandscape ? 0.7 : 0.3),
+      child: Chart(_recentTransactions),
+    );
+
+    final _txList = Container(
+      height: _availableHeight * 0.7,
+      child: TransactionsList(_transactions, _deleteTransaction),
+    );
+
     return Scaffold(
       appBar: _appBar,
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            Container(
-              height: _availableHeight * 0.3,
-              child: Chart(_recentTransactions),
-            ),
-            Container(
-                height: _availableHeight * 0.7,
-                child: TransactionsList(_transactions, _deleteTransaction)),
+            if (_isLandscape)
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Text('Show chart'),
+                  Switch(
+                    value: _showChart,
+                    onChanged: (val) {
+                      setState(() {
+                        _showChart = val;
+                      });
+                    },
+                  ),
+                ],
+              ),
+            if (_isLandscape) _showChart ? _chartWidget : _txList,
+            if (!_isLandscape) _chartWidget,
+            if (!_isLandscape) _txList
           ],
         ),
       ),
