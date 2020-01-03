@@ -90,10 +90,10 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    final _isLandscape =
-        MediaQuery.of(context).orientation == Orientation.landscape;
+    final mediaQuery = MediaQuery.of(context);
+    final isLandscape = mediaQuery.orientation == Orientation.landscape;
 
-    final _appBar = AppBar(
+    final appBar = AppBar(
       title: Text('Personal Expenses Manager'),
       actions: <Widget>[
         IconButton(
@@ -103,26 +103,26 @@ class _MyHomePageState extends State<MyHomePage> {
       ],
     );
 
-    final _availableHeight = (MediaQuery.of(context).size.height -
-        (_appBar.preferredSize.height + MediaQuery.of(context).padding.top));
+    final availableHeight = (mediaQuery.size.height -
+        (appBar.preferredSize.height + mediaQuery.padding.top));
 
-    final _chartWidget = Container(
-      height: _availableHeight * (_isLandscape ? 0.7 : 0.3),
+    final chartWidget = Container(
+      height: availableHeight * (isLandscape ? 0.7 : 0.3),
       child: Chart(_recentTransactions),
     );
 
-    final _txList = Container(
-      height: _availableHeight * 0.7,
+    final txList = Container(
+      height: availableHeight * 0.7,
       child: TransactionsList(_transactions, _deleteTransaction),
     );
 
     return Scaffold(
-      appBar: _appBar,
+      appBar: appBar,
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            if (_isLandscape)
+            if (isLandscape)
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
@@ -137,9 +137,9 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                 ],
               ),
-            if (_isLandscape) _showChart ? _chartWidget : _txList,
-            if (!_isLandscape) _chartWidget,
-            if (!_isLandscape) _txList
+            if (isLandscape) _showChart ? chartWidget : txList,
+            if (!isLandscape) chartWidget,
+            if (!isLandscape) txList
           ],
         ),
       ),
